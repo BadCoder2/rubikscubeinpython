@@ -58,8 +58,8 @@ class Cube:
             # Step 1: Move the U face's right column to the B face's right column, the B face's right column to the D face's right column, and the D face's right column to the F face's right column.
             for i in range(3):
                 temp = self.cube['D'][i][2]
-                self.cube['D'][i][2] = self.cube['B'][i][0]
-                self.cube['B'][i][0] = self.cube['U'][i][2]
+                self.cube['D'][i][2] = self.cube['B'][2-i][0]
+                self.cube['B'][2-i][0] = self.cube['U'][i][2]
                 self.cube['U'][i][2] = self.cube['F'][i][2]
                 self.cube['F'][i][2] = temp
 
@@ -81,11 +81,9 @@ def test_cube_turn_r_basic():
     cur_cube = Cube()
     original_cubestring = cur_cube.get_cubestring()
     print(original_cubestring)
-    cur_cube.print_state()
     cur_cube.turn('R')
     final_cubestring = cur_cube.get_cubestring()
     print(final_cubestring)
-    cur_cube.print_state()
     assert final_cubestring == 'WWGWWGWWGOOOOOOOOOGGYGGYGGYRRRRRRRRRWBBWBBWBBYYBYYBYYB'
     print("Basic test passed.")
 
@@ -94,17 +92,15 @@ def test_cube_turn_r_adv():
     cur_cube = Cube()
     cur_cube.set_cubestring(cubestring_of_solved_cube_turned_u)
     print(cur_cube.get_cubestring())
-    cur_cube.print_state()
-    cur_cube.turn('R')
     cur_cube.turn('R')
     print(cur_cube.get_cubestring())
-    cur_cube.print_state()
+    cur_cube.turn('R')
+    print(cur_cube.get_cubestring())
     assert cur_cube.get_cubestring() == 'WWYWWYWWYGGGOOOOOORRBGGBGGORRRRRRBBBGOOGBBRBBYYWYYWYYW'
     print("Advanced test phase 1 passed.")
     cur_cube.turn('R')
     cur_cube.turn('R')
     print(cur_cube.get_cubestring())
-    cur_cube.print_state()
     assert cur_cube.get_cubestring() == cubestring_of_solved_cube_turned_u
     print("Advanced test phase 2 passed.")
 
