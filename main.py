@@ -1,6 +1,5 @@
 # Overall goal: create a 3d visualization of a 3x3x3 Rubik's Cube in Python
-# Current task: FIX the newly implemented (i.e., broken) turn functions. The current test succeeds up until the 'D' turn, which is broken.
-# TODO after current task: Implement a 3d rendering library
+# Current task: Implement a 3d rendering library
 # TODO in future: Implement the 'M', 'E', and 'S' turns, which are middle slice turns
 
 # Config
@@ -128,10 +127,10 @@ class Cube:
             # Step 1: Move the F face's bottom row to the R face's bottom row, the R face's bottom row to the B face's bottom row, and the B face's bottom row to the L face's bottom row.
             for i in range(3):
                 temp = self.cube['F'][2][i]
-                self.cube['F'][2][i] = self.cube['R'][2][i]
-                self.cube['R'][2][i] = self.cube['B'][2][i]
-                self.cube['B'][2][i] = self.cube['L'][2][i]
-                self.cube['L'][2][i] = temp
+                self.cube['F'][2][i] = self.cube['L'][2][i]
+                self.cube['L'][2][i] = self.cube['B'][2][i]
+                self.cube['B'][2][i] = self.cube['R'][2][i]
+                self.cube['R'][2][i] = temp
 
             # Step 2: Rotate the D face's corners
             temp = self.cube['D'][0][0]
