@@ -1,5 +1,6 @@
 # Overall goal: create a 3d visualization of a 3x3x3 Rubik's Cube in Python
 # Current task: FIX the newly implemented (i.e., broken) turn functions. The current test succeeds up until the 'D' turn, which is broken.
+# TODO after current task: Implement a 3d rendering library
 # TODO in future: Implement the 'M', 'E', and 'S' turns, which are middle slice turns
 
 # Config
