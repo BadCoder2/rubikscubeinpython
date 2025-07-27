@@ -6,7 +6,7 @@ test_mode = True
 
 # Code
 
-class Cube:
+class LogicalCube:
     def __init__(self):
         # Initialize a 3x3x3 cube with each face having a unique color
         # White top, green front initially
@@ -187,9 +187,11 @@ class Cube:
             self.cube['B'][1][0] = self.cube['B'][2][1]
             self.cube['B'][2][1] = self.cube['B'][1][2]
             self.cube['B'][1][2] = temp
+        else:
+            raise ValueError(f"Invalid turn command: {command}. Use 'R', 'L', 'U', 'D', 'F', or 'B'.")
 
 def test_cube_turn_r_basic():
-    cur_cube = Cube()
+    cur_cube = LogicalCube()
     original_cubestring = cur_cube.get_cubestring()
     print(original_cubestring)
     cur_cube.turn('R')
@@ -199,7 +201,7 @@ def test_cube_turn_r_basic():
     print("Basic test passed.")
 def test_cube_turn_r_adv():
     cubestring_of_solved_cube_turned_u = 'WWWWWWWWWGGGOOOOOORRRGGGGGGBBBRRRRRROOOBBBBBBYYYYYYYYY'
-    cur_cube = Cube()
+    cur_cube = LogicalCube()
     cur_cube.set_cubestring(cubestring_of_solved_cube_turned_u)
     print(cur_cube.get_cubestring())
     cur_cube.turn('R')
@@ -215,7 +217,7 @@ def test_cube_turn_r_adv():
     print("Advanced test phase 2 passed.")
 
 def test_cube_turn_l_basic():
-    cur_cube = Cube()
+    cur_cube = LogicalCube()
     original_cubestring = cur_cube.get_cubestring()
     print(original_cubestring)
     cur_cube.turn('L')
@@ -225,7 +227,7 @@ def test_cube_turn_l_basic():
     print("Basic test passed.")
 def test_cube_turn_l_adv():
     cubestring_of_solved_cube_turned_u = 'WWWWWWWWWGGGOOOOOORRRGGGGGGBBBRRRRRROOOBBBBBBYYYYYYYYY'
-    cur_cube = Cube()
+    cur_cube = LogicalCube()
     cur_cube.set_cubestring(cubestring_of_solved_cube_turned_u)
     print(cur_cube.get_cubestring())
     cur_cube.turn('L')
@@ -241,7 +243,7 @@ def test_cube_turn_l_adv():
     print("Advanced test phase 2 passed.")
 
 def test_cube_all_turns():
-    cur_cube = Cube()
+    cur_cube = LogicalCube()
     original_cubestring = cur_cube.get_cubestring()
     print(original_cubestring)
     cur_cube.turn('R')

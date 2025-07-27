@@ -1,12 +1,13 @@
 # Overall goal: Implement a 3d rendering library to display the already written cube logic.
-# TODO, NEXT UP: Fix CornerWOG and CornerWGR models/textures using the wrong green color.
+# TODO: Test corner movement with stuff other than R, also actually rotate the corners so you dont see the inside of the cube
 
 from ursina import *
-from cube import Cube as LogicalCube
+from cube import LogicalCube
 
-# Config/constants
+# Config/constants/setup
 
-possible_turns = ['R', 'L', 'U', 'D', 'F', 'B']
+possible_turns = ['r', 'l', 'u', 'd', 'f', 'b']
+last_cubestring = ''
 
 coposdict = {
     'ULB': (-2, 2, 2),
@@ -14,9 +15,9 @@ coposdict = {
     'UFL': (-2, 2, -2),
     'URB': (2, 2, 2),
     'DBR': (2, -2, 2),
-    'DGL': (-2, -2, -2),
-    'DFL': (-2, -2, 2),
-    'DGR': (2, -2, -2),
+    'DFL': (-2, -2, -2),
+    'DBL': (-2, -2, 2),
+    'DFR': (2, -2, -2),
 }
 edposdict = {
     'UB': (0, 2, 2),
@@ -41,19 +42,32 @@ ceposdict = {
     'D': (0, -2, 0),
 }
 
+corner_locations_in_cubestring_dict = { # Always in order of the following (consider only the applicable): U, L, F, R, B, D. AKA ascending order of the cubestring.
+    'ULB': (0, 9, 38),
+    'UFR': (8, 20, 27),
+    'UFL': (6, 11, 18),
+    'URB': (2, 29, 36),
+    'DBR': (35, 42, 53),
+    'DFL': (17, 24, 45),
+    'DBL': (15, 44, 51),
+    'DFR': (26, 33, 47)
+}
+
+
 # Start doing stuff
 
 app = Ursina()
+log_cube_instance = LogicalCube()
 
-corner_dict = { # Create entities for each corner of the cube. Unfinished - the coordinates make it look like a 2x2 cube
-    'WBO': Entity(model='CornerWBO', texture='CornerWBO', position=coposdict['ULB']),
+corner_dict = { # Create entities for each corner of the cube. The names of the files are whatever I decided at the time, whereas the variable names are named in order of W, O, G, R, B, Y
+    'WOB': Entity(model='CornerWBO', texture='CornerWBO', position=coposdict['ULB']),
     'WGR': Entity(model='CornerWGR', texture='CornerWGR', position=coposdict['UFR']),
     'WOG': Entity(model='CornerWOG', texture='CornerWOG', position=coposdict['UFL']),
     'WRB': Entity(model='CornerWRB', texture='CornerWRB', position=coposdict['URB']),
-    'YBR': Entity(model='CornerYBR', texture='CornerYBR', position=coposdict['DBR']),
-    'YGO': Entity(model='CornerYGO', texture='CornerYGO', position=coposdict['DGL']),
-    'YOB': Entity(model='CornerYOB', texture='CornerYOB', position=coposdict['DFL']),
-    'YRG': Entity(model='CornerYRG', texture='CornerYRG', position=coposdict['DGR']),
+    'RBY': Entity(model='CornerYBR', texture='CornerYBR', position=coposdict['DBR']),
+    'OGY': Entity(model='CornerYGO', texture='CornerYGO', position=coposdict['DFL']),
+    'OBY': Entity(model='CornerYOB', texture='CornerYOB', position=coposdict['DBL']),
+    'GRY': Entity(model='CornerYRG', texture='CornerYRG', position=coposdict['DFR']),
 }
 edge_dict = {
     'WB': Entity(model='EdgeWB', texture='EdgeWB', position=edposdict['UB']),
@@ -80,9 +94,20 @@ center_dict = {
 
 def input(key):
     if key in possible_turns:
-        LogicalCube.turn(key)
+        log_cube_instance.turn(key.upper())
 
 EditorCamera()
 
 while True:
+    cur_cubestring = log_cube_instance.get_cubestring()
+    if cur_cubestring != last_cubestring:
+        print(f'Current cubestring: {cur_cubestring}, last cubestring: {last_cubestring}')
+        # Update the displayed cube based on the current cubestring
+        for key, posincc in corner_locations_in_cubestring_dict.items():
+            colorcornerunsorted = ''.join([cur_cubestring[loc] for loc in posincc])
+            # Sort the color corner string to match the order in corner_dict
+            colorcorner = ''.join(sorted(colorcornerunsorted, key=lambda x: 'WOGRBY'.index(x)))
+            corner_dict[colorcorner].position = coposdict[key]
+        last_cubestring = cur_cubestring
+        
     app.step()
