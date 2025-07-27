@@ -1,4 +1,4 @@
-# Overall goal: Implement a 3d rendering library to display the already written cube logic. Arrow keys to rotate the view.
+# Overall goal: Implement a 3d rendering library to display the already written cube logic.
 # TODO, NEXT UP: Fix CornerWOG and CornerWGR models/textures using the wrong green color.
 
 from ursina import *
