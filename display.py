@@ -1,5 +1,5 @@
 # Overall goal: Implement a 3d rendering library to display the already written cube logic.
-# TODO: Test corner movement with stuff other than R, also actually rotate the corners so you dont see the inside of the cube
+# TODO: Rotate corners for turns other than L and R
 # TODO later: Fix specific error case of first turning D then turning F raising an error
 
 from ursina import *
@@ -9,6 +9,7 @@ from cube import LogicalCube
 
 possible_turns = ['r', 'l', 'u', 'd', 'f', 'b']
 last_cubestring = ''
+uncomputed_turns = []
 
 coposdict = {
     'ULB': (-2, 2, 2),
@@ -105,6 +106,7 @@ center_dict = {
 def input(key):
     if key in possible_turns:
         log_cube_instance.turn(key.upper())
+        uncomputed_turns.append(key)
 
 EditorCamera()
 
@@ -127,11 +129,43 @@ while rundirectly:
             colorcorner = ''.join(sorted(colorcornerunsorted, key=lambda x: 'WOGRBY'.index(x)))
             corner_dict[colorcorner].position = coposdict[key]
             print(f'Unsorted corner: {colorcornerunsorted}, sorted corner: {colorcorner}')
-
         # TODO: Update edge positions
         # TODO: Update center positions
-        # TODO: Update corner rotations
+
+        last_cubestring = cur_cubestring
+    if len(uncomputed_turns) > 0:
+        # Update corner rotations
+        for turn in uncomputed_turns:
+            if turn == 'r':
+                # Check which corners are in the right face
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFR']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['URB']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFR']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBR']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_x += 90
+                corner_dict[corner_tr_key].rotation_x += 90
+                corner_dict[corner_bl_key].rotation_x += 90
+                corner_dict[corner_br_key].rotation_x += 90
+            elif turn == 'l':
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFL']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['ULB']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFL']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBL']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_x -= 90
+                corner_dict[corner_tr_key].rotation_x -= 90
+                corner_dict[corner_bl_key].rotation_x -= 90
+                corner_dict[corner_br_key].rotation_x -= 90
+        uncomputed_turns = []
         # TODO: Update edge rotations
         # TODO: Update center rotations
-        last_cubestring = cur_cubestring
     app.step()
