@@ -121,11 +121,12 @@ while rundirectly:
         print(f'Current cubestring: {cur_cubestring}, last cubestring: {last_cubestring}')
 
         # Update corner positions
-        for key, posincc in corner_locations_in_cubestring_dict.items():
-            colorcornerunsorted = ''.join([cur_cubestring[loc] for loc in posincc])
+        for key, posincs in corner_locations_in_cubestring_dict.items():
+            colorcornerunsorted = ''.join([cur_cubestring[loc] for loc in posincs])
             # Sort the color corner string to match the order in corner_dict
             colorcorner = ''.join(sorted(colorcornerunsorted, key=lambda x: 'WOGRBY'.index(x)))
             corner_dict[colorcorner].position = coposdict[key]
+            print(f'Unsorted corner: {colorcornerunsorted}, sorted corner: {colorcorner}')
 
         # TODO: Update edge positions
         # TODO: Update center positions
