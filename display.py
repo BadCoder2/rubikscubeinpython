@@ -165,6 +165,62 @@ while rundirectly:
                 corner_dict[corner_tr_key].rotation_x -= 90
                 corner_dict[corner_bl_key].rotation_x -= 90
                 corner_dict[corner_br_key].rotation_x -= 90
+            elif turn == 'u':
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['ULB']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFR']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFL']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['URB']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_y += 90
+                corner_dict[corner_tr_key].rotation_y += 90
+                corner_dict[corner_bl_key].rotation_y += 90
+                corner_dict[corner_br_key].rotation_y += 90
+            elif turn == 'd':
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBR']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFR']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBL']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFL']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_y -= 90
+                corner_dict[corner_tr_key].rotation_y -= 90
+                corner_dict[corner_bl_key].rotation_y -= 90
+                corner_dict[corner_br_key].rotation_y -= 90
+            elif turn == 'f':
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFR']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFR']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFL']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFL']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_z += 90
+                corner_dict[corner_tr_key].rotation_z += 90
+                corner_dict[corner_bl_key].rotation_z += 90
+                corner_dict[corner_br_key].rotation_z += 90
+            elif turn == 'b':
+                corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['ULB']])
+                corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_tr_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['URB']])
+                corner_tr_key = ''.join(sorted(corner_tr_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_bl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBL']])
+                corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBR']])
+                corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                corner_dict[corner_tl_key].rotation_z -= 90
+                corner_dict[corner_tr_key].rotation_z -= 90
+                corner_dict[corner_bl_key].rotation_z -= 90
+                corner_dict[corner_br_key].rotation_z -= 90
         uncomputed_turns = []
         # TODO: Update edge rotations
         # TODO: Update center rotations
