@@ -54,6 +54,20 @@ corner_locations_in_cubestring_dict = { # Always in order of the following (cons
     'DBL': (15, 44, 51),
     'DFR': (26, 33, 47)
 }
+edge_locations_in_cubestring_dict = {
+    'UB': (1, 37),
+    'UF': (7, 19),
+    'UL': (3, 10),
+    'UR': (5, 28),
+    'BL': (12, 41),
+    'FL': (14, 21),
+    'BR': (32, 39),
+    'FR': (23, 30),
+    'DB': (43, 52),
+    'DF': (25, 46),
+    'DL': (16, 48),
+    'DR': (34, 50)
+}
 default_position_dict = {
     'WOB': 'ULB',
     'WGR': 'UFR',
@@ -88,11 +102,11 @@ edge_dict = {
     'OB': Entity(model='EdgeOB', texture='EdgeOB', position=edposdict['BL']),
     'OG': Entity(model='EdgeOG', texture='EdgeOG', position=edposdict['FL']),
     'RB': Entity(model='EdgeRB', texture='EdgeRB', position=edposdict['BR']),
-    'RG': Entity(model='EdgeRG', texture='EdgeRG', position=edposdict['FR']),
-    'YB': Entity(model='EdgeYB', texture='EdgeYB', position=edposdict['DB']),
-    'YG': Entity(model='EdgeYG', texture='EdgeYG', position=edposdict['DF']),
-    'YO': Entity(model='EdgeYO', texture='EdgeYO', position=edposdict['DL']),
-    'YR': Entity(model='EdgeYR', texture='EdgeYR', position=edposdict['DR']),
+    'GR': Entity(model='EdgeRG', texture='EdgeRG', position=edposdict['FR']),
+    'BY': Entity(model='EdgeYB', texture='EdgeYB', position=edposdict['DB']),
+    'GY': Entity(model='EdgeYG', texture='EdgeYG', position=edposdict['DF']),
+    'OY': Entity(model='EdgeYO', texture='EdgeYO', position=edposdict['DL']),
+    'RY': Entity(model='EdgeYR', texture='EdgeYR', position=edposdict['DR']),
 }
 center_dict = {
     'B': Entity(model='CenterB', texture='CenterB', position=ceposdict['B']),
@@ -128,8 +142,15 @@ while rundirectly:
             # Sort the color corner string to match the order in corner_dict
             colorcorner = ''.join(sorted(colorcornerunsorted, key=lambda x: 'WOGRBY'.index(x)))
             corner_dict[colorcorner].position = coposdict[key]
-            print(f'Unsorted corner: {colorcornerunsorted}, sorted corner: {colorcorner}')
-        # TODO: Update edge positions
+        
+        # Update edge positions
+        for key, posincs in edge_locations_in_cubestring_dict.items():
+            coloredgeunsorted = ''.join([cur_cubestring[i] for i in posincs])
+            print(f'Edge {key} unsorted colors: {coloredgeunsorted}')
+            # Sort the color edge string to match the order in edge_dict
+            coloredge = ''.join(sorted(coloredgeunsorted, key=lambda x: 'WOGRBY'.index(x)))
+            edge_dict[coloredge].position = edposdict[key]
+        
         # TODO: Update center positions
 
         last_cubestring = cur_cubestring
