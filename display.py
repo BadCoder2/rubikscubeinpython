@@ -1,5 +1,6 @@
 # Overall goal: Implement a 3d rendering library to display the already written cube logic.
 # TODO: Test corner movement with stuff other than R, also actually rotate the corners so you dont see the inside of the cube
+# TODO later: Fix specific error case of first turning D then turning F raising an error
 
 from ursina import *
 from cube import LogicalCube
@@ -52,7 +53,16 @@ corner_locations_in_cubestring_dict = { # Always in order of the following (cons
     'DBL': (15, 44, 51),
     'DFR': (26, 33, 47)
 }
-
+default_position_dict = {
+    'WOB': 'ULB',
+    'WGR': 'UFR',
+    'WOG': 'UFL',
+    'WRB': 'URB',
+    'RBY': 'DBR',
+    'OGY': 'DFL',
+    'OBY': 'DBL',
+    'GRY': 'DFR'
+}
 
 # Start doing stuff
 
@@ -98,16 +108,29 @@ def input(key):
 
 EditorCamera()
 
-while True:
+if __name__ == '__main__':
+    rundirectly = True
+else:
+    rundirectly = False
+
+while rundirectly:
     cur_cubestring = log_cube_instance.get_cubestring()
     if cur_cubestring != last_cubestring:
-        print(f'Current cubestring: {cur_cubestring}, last cubestring: {last_cubestring}')
+        
         # Update the displayed cube based on the current cubestring
+        print(f'Current cubestring: {cur_cubestring}, last cubestring: {last_cubestring}')
+
+        # Update corner positions
         for key, posincc in corner_locations_in_cubestring_dict.items():
             colorcornerunsorted = ''.join([cur_cubestring[loc] for loc in posincc])
             # Sort the color corner string to match the order in corner_dict
             colorcorner = ''.join(sorted(colorcornerunsorted, key=lambda x: 'WOGRBY'.index(x)))
             corner_dict[colorcorner].position = coposdict[key]
+
+        # TODO: Update edge positions
+        # TODO: Update center positions
+        # TODO: Update corner rotations
+        # TODO: Update edge rotations
+        # TODO: Update center rotations
         last_cubestring = cur_cubestring
-        
     app.step()
