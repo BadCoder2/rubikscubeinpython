@@ -1,6 +1,5 @@
 # Overall goal: Implement a 3d rendering library to display the already written cube logic.
-# TODO: Rotate corners for turns other than L and R
-# TODO later: Fix specific error case of first turning D then turning F raising an error
+# TODO: Fix specific error case of first turning D then turning F raising an error
 
 from ursina import *
 from cube import LogicalCube
@@ -146,7 +145,6 @@ while rundirectly:
         # Update edge positions
         for key, posincs in edge_locations_in_cubestring_dict.items():
             coloredgeunsorted = ''.join([cur_cubestring[i] for i in posincs])
-            print(f'Edge {key} unsorted colors: {coloredgeunsorted}')
             # Sort the color edge string to match the order in edge_dict
             coloredge = ''.join(sorted(coloredgeunsorted, key=lambda x: 'WOGRBY'.index(x)))
             edge_dict[coloredge].position = edposdict[key]
@@ -155,7 +153,7 @@ while rundirectly:
 
         last_cubestring = cur_cubestring
     if len(uncomputed_turns) > 0:
-        # Update corner rotations
+        # Update corner and edge rotations
         for turn in uncomputed_turns:
             if turn == 'r':
                 # Check which corners are in the right face
@@ -172,6 +170,20 @@ while rundirectly:
                 corner_dict[corner_tr_key].rotation_x += 90
                 corner_dict[corner_bl_key].rotation_x += 90
                 corner_dict[corner_br_key].rotation_x += 90
+                # Check which edges are in the right face
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UR']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DR']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['FR']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['BR']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                # Rotate them
+                edge_dict[edge_t_key].rotation_x += 90
+                edge_dict[edge_b_key].rotation_x += 90
+                edge_dict[edge_l_key].rotation_x += 90
+                edge_dict[edge_r_key].rotation_x += 90
             elif turn == 'l':
                 corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFL']])
                 corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
@@ -181,11 +193,22 @@ while rundirectly:
                 corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
                 corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBL']])
                 corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
-                # Rotate them
                 corner_dict[corner_tl_key].rotation_x -= 90
                 corner_dict[corner_tr_key].rotation_x -= 90
                 corner_dict[corner_bl_key].rotation_x -= 90
                 corner_dict[corner_br_key].rotation_x -= 90
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UL']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DL']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['FL']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['BL']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_dict[edge_t_key].rotation_x -= 90
+                edge_dict[edge_b_key].rotation_x -= 90
+                edge_dict[edge_l_key].rotation_x -= 90
+                edge_dict[edge_r_key].rotation_x -= 90
             elif turn == 'u':
                 corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['ULB']])
                 corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
@@ -195,11 +218,22 @@ while rundirectly:
                 corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
                 corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['URB']])
                 corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
-                # Rotate them
                 corner_dict[corner_tl_key].rotation_y += 90
                 corner_dict[corner_tr_key].rotation_y += 90
                 corner_dict[corner_bl_key].rotation_y += 90
                 corner_dict[corner_br_key].rotation_y += 90
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UF']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UB']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UL']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UR']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_dict[edge_t_key].rotation_y += 90
+                edge_dict[edge_b_key].rotation_y += 90
+                edge_dict[edge_l_key].rotation_y += 90
+                edge_dict[edge_r_key].rotation_y += 90
             elif turn == 'd':
                 corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBR']])
                 corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
@@ -209,11 +243,22 @@ while rundirectly:
                 corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
                 corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFL']])
                 corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
-                # Rotate them
                 corner_dict[corner_tl_key].rotation_y -= 90
                 corner_dict[corner_tr_key].rotation_y -= 90
                 corner_dict[corner_bl_key].rotation_y -= 90
                 corner_dict[corner_br_key].rotation_y -= 90
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DF']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DB']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DL']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DR']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_dict[edge_t_key].rotation_y -= 90
+                edge_dict[edge_b_key].rotation_y -= 90
+                edge_dict[edge_l_key].rotation_y -= 90
+                edge_dict[edge_r_key].rotation_y -= 90
             elif turn == 'f':
                 corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['UFR']])
                 corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
@@ -223,11 +268,22 @@ while rundirectly:
                 corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
                 corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DFL']])
                 corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
-                # Rotate them
                 corner_dict[corner_tl_key].rotation_z += 90
                 corner_dict[corner_tr_key].rotation_z += 90
                 corner_dict[corner_bl_key].rotation_z += 90
                 corner_dict[corner_br_key].rotation_z += 90
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UF']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DF']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['FR']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['FL']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_dict[edge_t_key].rotation_z += 90
+                edge_dict[edge_b_key].rotation_z += 90
+                edge_dict[edge_l_key].rotation_z += 90
+                edge_dict[edge_r_key].rotation_z += 90
             elif turn == 'b':
                 corner_tl_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['ULB']])
                 corner_tl_key = ''.join(sorted(corner_tl_key_us, key=lambda x: 'WOGRBY'.index(x)))
@@ -237,12 +293,22 @@ while rundirectly:
                 corner_bl_key = ''.join(sorted(corner_bl_key_us, key=lambda x: 'WOGRBY'.index(x)))
                 corner_br_key_us = ''.join([cur_cubestring[i] for i in corner_locations_in_cubestring_dict['DBR']])
                 corner_br_key = ''.join(sorted(corner_br_key_us, key=lambda x: 'WOGRBY'.index(x)))
-                # Rotate them
                 corner_dict[corner_tl_key].rotation_z -= 90
                 corner_dict[corner_tr_key].rotation_z -= 90
                 corner_dict[corner_bl_key].rotation_z -= 90
                 corner_dict[corner_br_key].rotation_z -= 90
+                edge_t_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['UB']])
+                edge_t_key = ''.join(sorted(edge_t_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_b_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['DB']])
+                edge_b_key = ''.join(sorted(edge_b_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_l_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['BL']])
+                edge_l_key = ''.join(sorted(edge_l_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_r_key_us = ''.join([cur_cubestring[i] for i in edge_locations_in_cubestring_dict['BR']])
+                edge_r_key = ''.join(sorted(edge_r_key_us, key=lambda x: 'WOGRBY'.index(x)))
+                edge_dict[edge_t_key].rotation_z -= 90
+                edge_dict[edge_b_key].rotation_z -= 90
+                edge_dict[edge_l_key].rotation_z -= 90
+                edge_dict[edge_r_key].rotation_z -= 90
         uncomputed_turns = []
-        # TODO: Update edge rotations
         # TODO: Update center rotations
     app.step()
