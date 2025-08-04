@@ -146,8 +146,8 @@ class LogicalCube:
         elif command == 'F':
             # Step 1: Move the U face's bottom row to the R face's left column, the R face's left column to the D face's top row, and the D face's top row to the L face's right column.
             for i in range(3):
-                temp = self.cube['U'][2][i]
-                self.cube['U'][2][i] = self.cube['L'][i][2]
+                temp = self.cube['U'][2][2-i]
+                self.cube['U'][2][2-i] = self.cube['L'][i][2]
                 self.cube['L'][i][2] = self.cube['D'][0][i]
                 self.cube['D'][0][i] = self.cube['R'][2-i][0]
                 self.cube['R'][2-i][0] = temp
@@ -261,10 +261,22 @@ def test_cube_all_turns():
     print(final_cubestring)
     assert final_cubestring == 'YRYWWWYOYBGGBOGBBGOWROGROYRGBBGRBGGBRWORBORYOWRWYYYWOW'
 
+def test_cube_turning_df():
+    cur_cube = LogicalCube()
+    original_cubestring = cur_cube.get_cubestring()
+    print(original_cubestring)
+    cur_cube.turn('D')
+    print(cur_cube.get_cubestring())
+    cur_cube.turn('F')
+    final_cubestring = cur_cube.get_cubestring()
+    print(final_cubestring)
+    assert final_cubestring == 'WWWWWWBOOOOYOOYBBYOGGOGGOGGWRRWRRWGGBBBBBBRRRGRRYYYYYY'
 
 if __name__ == "__main__" and test_mode == True:
     #test_cube_turn_r_basic()
     #test_cube_turn_r_adv()
     #test_cube_turn_l_basic()
     #test_cube_turn_l_adv()
-    test_cube_all_turns()
+    #test_cube_all_turns()
+    test_cube_turning_df()
+    print("All tests passed.")

@@ -1,5 +1,5 @@
 # Overall goal: Implement a 3d rendering library to display the already written cube logic.
-# TODO: Fix specific error case of first turning D then turning F raising an error
+# TODO: Fix specific error case of first turning D then turning F causing incorrect coloration (due to rotation, not position)
 
 from ursina import *
 from cube import LogicalCube
