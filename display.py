@@ -120,6 +120,10 @@ def input(key):
     if key in possible_turns:
         log_cube_instance.turn(key.upper())
         uncomputed_turns.append(key)
+    elif key == 'q':
+        print('Resetting cube...')
+        log_cube_instance.set_cubestring('WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY')
+        uncomputed_turns.append('reset')
 
 EditorCamera()
 
@@ -309,6 +313,11 @@ while rundirectly:
                 edge_dict[edge_b_key].rotation_z -= 90
                 edge_dict[edge_l_key].rotation_z -= 90
                 edge_dict[edge_r_key].rotation_z -= 90
+            elif turn == 'reset':
+                for corner in corner_dict.values():
+                    corner.rotation = (0, 0, 0)
+                for edge in edge_dict.values():
+                    edge.rotation = (0, 0, 0)
         uncomputed_turns = []
         # TODO: Update center rotations
     app.step()
